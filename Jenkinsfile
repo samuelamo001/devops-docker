@@ -25,12 +25,12 @@ pipeline {
             }
         } */
 
-//         stage('Build Docker Image') {
-//             steps {
-//
-//                 sh 'docker build -t spring-boot-app:latest .'
-//             }
-//         }
+        stage('Build Docker Image') {
+            steps {
+
+                sh 'docker build -t spring-boot-app:latest .'
+            }
+        }
 
         stage('Deploy') {
             steps {
