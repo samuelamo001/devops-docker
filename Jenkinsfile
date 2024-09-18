@@ -45,7 +45,7 @@ pipeline {
                     """
 
                     // Run the new Docker container with the new name
-                    sh "docker run -d -p 9191:9191 --name ${CONTAINER_NAME} ${DOCKER_IMAGE}"
+                    sh "docker run -d -p 8000:8000 --name ${CONTAINER_NAME} ${DOCKER_IMAGE}"
                 }
             }
         }
