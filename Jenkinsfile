@@ -32,10 +32,11 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Remove any existing container with the same name
+                    // Stop and remove any existing container with the same name
                     sh """
                     if [ \$(docker ps -q -f name=${CONTAINER_NAME}) ]; then
-                        docker rm -f ${CONTAINER_NAME}
+                        docker stop ${CONTAINER_NAME}
+                        docker rm ${CONTAINER_NAME}
                     fi
                     """
 
