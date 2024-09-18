@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+
+        DOCKER_IMAGE = 'spring-boot-app:1.0.0'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -8,43 +13,39 @@ pipeline {
             }
         }
 
-/*         stage('Build') {
+        stage('Build') {
             steps {
-
-                sh '''
-                    mvn -v &&
-                    mvn clean package
-                '''
+                script {
+                    sh './mvnw clean package'
+                }
             }
-        } */
-
-  /*       stage('Test') {
-            steps {
-
-                sh 'mvn test'
-            }
-        } */
+        }
 
         stage('Build Docker Image') {
             steps {
-
-                sh 'docker build -t spring-boot-app:latest .'
+                script {
+                    sh "docker build -t ${DOCKER_IMAGE} ."
+                }
             }
         }
 
         stage('Deploy') {
             steps {
-
-                sh 'docker compose up --build -d'
+                script {
+                    sh "docker rm -f spring-boot-app-container || true"
+                    sh "docker run -d -p 9191:9191 --name spring-boot-app-container ${DOCKER_IMAGE}"
+                }
             }
         }
+    }
 
-        stage('Success'){
-            steps {
-                sh 'echo successfully deployed'
-           }
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
         }
 
-
+        failure {
+            echo 'Pipeline failed.'
+        }
     }
 }

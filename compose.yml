@@ -1,0 +1,6 @@
+services:
+  spring-boot-app:
+    build: .
+    ports:
+      - "9191:9191"
+    container_name: spring-boot-app-container
