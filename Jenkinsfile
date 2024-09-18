@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Clone the Git repository
-                git branch: 'cI-CDPipeline-with-Jenkins', url: 'https://github.com/samuelamo001/springdat-data-week1/tree/cI-CDPipeline-with-Jenkins'
+                git branch: 'cI-CDPipeline-with-Jenkins', url: 'https://github.com/samuelamo001/devops-docker.git'
             }
         }
 
