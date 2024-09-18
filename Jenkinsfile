@@ -8,7 +8,7 @@ pipeline {
             }
         }
 
-        stage('Build') {
+/*         stage('Build') {
             steps {
 
                 sh '''
@@ -16,7 +16,7 @@ pipeline {
                     mvn clean package
                 '''
             }
-        }
+        } */
 
         stage('Test') {
             steps {
