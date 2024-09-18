@@ -42,7 +42,7 @@ pipeline {
     post {
         always {
             // Clean up Docker containers after the build
-            sh 'docker-compose down'
+            sh 'docker compose down'
         }
     }
 }
