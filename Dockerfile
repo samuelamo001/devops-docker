@@ -6,6 +6,6 @@ WORKDIR /app
 COPY target/devops-0.0.1-SNAPSHOT.jar app.jar
 
 
-EXPOSE 9191
+EXPOSE 8000
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
