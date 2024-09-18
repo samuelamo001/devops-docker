@@ -4,7 +4,6 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Clone the Git repository
                 git branch: 'main', url: 'https://github.com/samuelamo001/devops-docker.git'
             }
         }
@@ -12,7 +11,10 @@ pipeline {
         stage('Build') {
             steps {
 
-                sh 'mvn clean package'
+                sh '''
+                    mvn -v &&
+                    mvn clean package
+                '''
             }
         }
 
@@ -34,15 +36,13 @@ pipeline {
             steps {
 
                 sh 'docker compose up -d'
-
             }
         }
-    }
 
-    post {
-        always {
-            // Clean up Docker containers after the build
-            sh 'docker compose down'
+        stage('Success'){
+            steps {
+                sh 'echo successful'
+           }
         }
     }
 }
