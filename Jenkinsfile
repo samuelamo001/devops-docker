@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_IMAGE = 'spring-boot-app:1.0.0'
-        CONTAINER_NAME = 'spring-boot-app-container'
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -24,7 +19,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh "docker build -t ${DOCKER_IMAGE} ."
+                    sh "docker build -t spring-boot-app:1.0.0 ."
                 }
             }
         }
@@ -34,14 +29,14 @@ pipeline {
                 script {
                     // Stop and remove any existing container with the same name
                     sh """
-                    if [ \$(docker ps -q -f name=${CONTAINER_NAME}) ]; then
-                        docker stop ${CONTAINER_NAME}
-                        docker rm ${CONTAINER_NAME}
+                    if [ \$(docker ps -q -f name=spring-boot-app-container) ]; then
+                        docker stop spring-boot-app-container
+                        docker rm spring-boot-app-container
                     fi
                     """
 
                     // Run the new Docker container
-                    sh "docker run -d -p 9191:9191 --name ${CONTAINER_NAME} ${DOCKER_IMAGE}"
+                    sh "docker run -d -p 9191:9191 --name spring-boot-app-container spring-boot-app:1.0.0"
                 }
             }
         }
