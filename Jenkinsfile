@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'spring-boot-app:1.0.0'
-        CONTAINER_NAME = 'spring-boot-app-container-v2' // New container name
+        CONTAINER_NAME = 'spring-boot-app-container-v2'
     }
 
     stages {
@@ -16,36 +16,18 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh './mvnw clean package' // Adjust if you use a different build tool
+                    sh './mvnw clean package' // Adjust if you're using a different build tool
                 }
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build and Deploy with Docker Compose') {
             steps {
                 script {
-                    sh "docker build -t ${DOCKER_IMAGE} ."
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                script {
-                    // Attempt to stop and remove the container with the old name, if it exists
-                    sh """
-                    existing_container_id=\$(docker ps -a -q -f name=spring-boot-app-container)
-                    if [ -n "\$existing_container_id" ]; then
-                        echo "Stopping and removing existing container..."
-                        docker stop \$existing_container_id || true
-                        docker rm \$existing_container_id || true
-                    else
-                        echo "No existing container found."
-                    fi
-                    """
-
-                    // Run the new Docker container with the new name
-                    sh "docker run -d -p 8000:8000 --name ${CONTAINER_NAME} ${DOCKER_IMAGE}"
+                    // Use docker compose instead of docker-compose
+                    sh 'docker compose down' // Stop any running containers
+                    sh 'docker compose build' // Build the Docker image defined in the docker-compose.yml
+                    sh 'docker compose up -d' // Start the application container in detached mode
                 }
             }
         }
