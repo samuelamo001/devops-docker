@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'spring-boot-app:1.0.0'
-        CONTAINER_NAME = 'spring-boot-app-container-v2'
+        CONTAINER_NAME = 'spring-boot-app-container'
     }
 
     stages {
