@@ -15,10 +15,15 @@ class DemoControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    void testWelcome() throws Exception {
+    public void welcomeShouldReturnListOfMessages() throws Exception {
+
         mockMvc.perform(get("/api/v1/home"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("Welcome to the new world"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$").isArray())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0]").value("Welcome to the new world!"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1]").value("Explore the possibilities of Spring Boot."))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2]").value("Discover the power of DevOps."))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[3]").value("Embrace the future of technology!"));
     }
-
 }
+
