@@ -4,3 +4,15 @@ services:
     ports:
       - "2020:2020"
     container_name: spring-boot-app-container
+
+
+  db:
+    image: postgres:alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: blog
+      POSTGRES_PASSWORD: password
+
+
+

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-spring-boot-app
+  labels:
+    app: simple-spring-boot
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: simple-spring-boot
+
+  template:
+    metadata:
+      labels:
+        app: simple-spring-boot
+    spec:
+      containers:
+        - name: simple-spring-boot-container
+          image: samuelnapasco/simple-spring-boot-app:v1
+          ports:
+            - containerPort: 8080
+
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /actuator/health
+            initialDelaySeconds: 10
+            periodSeconds: 5
+
+          livenessProbe:
+              httpGet:
+                port: 8080
+                path: /actuator/health
+              initialDelaySeconds: 30
+              periodSeconds: 10
+
+
+
+
+
+
